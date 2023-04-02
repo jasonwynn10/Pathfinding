@@ -7,5 +7,8 @@ use pocketmine\block\Block;
 
 interface NeighbourSelector {
 
+	/**
+	 * @return Block[]
+	 */
 	public function getNeighbours(Block $block): array;
 }
