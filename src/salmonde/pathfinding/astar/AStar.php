@@ -36,10 +36,11 @@ class AStar extends Algorithm{
 		$this->openList = new AssociativeArrayMap();
 		$this->closedList = new AssociativeArrayMap();
 
+		/** @var Node $startPos */
 		$startPos = $this->getStartPos();
 		$startPos->setG(0.0);
 		$startPos->setH($this->calculateEstimatedCost($startPos));
-		$this->openList->put(World::blockHash($startPos->x, $startPos->y, $startPos->z), $startPos);
+		$this->openList->put(World::blockHash($startPos->getFloorX(), $startPos->getFloorY(), $startPos->getFloorZ()), $startPos);
 		$this->openListHeap->insert($startPos);
 	}
 
@@ -81,6 +82,7 @@ class AStar extends Algorithm{
 	}
 
 	public function tick() : void{
+		/** @var Node $currentNode */
 		$currentNode = $this->openListHeap->extract();
 
 		if($currentNode->equals($this->getTargetPos())){
@@ -90,19 +92,20 @@ class AStar extends Algorithm{
 			return;
 		}
 
-		$hash = World::blockHash($currentNode->x, $currentNode->y, $currentNode->z);
+		$hash = World::blockHash($currentNode->getFloorX(), $currentNode->getFloorY(), $currentNode->getFloorZ());
 		$this->openList->remove($hash);
 		$this->closedList->put($hash, $currentNode);
 
-		$block = $this->getWorld()->getBlockAt($currentNode->x, $currentNode->y, $currentNode->z);
+		$block = $this->getWorld()->getBlockAt($currentNode->getFloorX(), $currentNode->getFloorY(), $currentNode->getFloorZ());
 
 		foreach($this->getNeighbourSelector()->getNeighbours($block) as $side => $neighbourBlock){
 			$neighbourBlockPos = $neighbourBlock->getPosition();
-			if(!$this->isValidBlock($neighbourBlock, $side) || $this->closedList->containsKey($neighbourHash = World::blockHash($neighbourBlockPos->x, $neighbourBlockPos->y, $neighbourBlockPos->z))){
+			if(!$this->isValidBlock($neighbourBlock, $side) || $this->closedList->containsKey($neighbourHash = World::blockHash($neighbourBlockPos->getFloorX(), $neighbourBlockPos->getFloorY(), $neighbourBlockPos->getFloorZ()))){
 				continue;
 			}
 
 			$inOpenList = $this->openList->containsKey($neighbourHash);
+			/** @var Node $neighbourNode */
 			$neighbourNode = $inOpenList ? $this->openList->get($neighbourHash) : Node::fromVector3($neighbourBlockPos);
 
 			$cost = $this->costCalculator->getCost($neighbourBlock);
@@ -125,6 +128,7 @@ class AStar extends Algorithm{
 
 	protected function parsePath() : void{
 		$pathResult = new PathResult();
+		/** @var Node $currentNode */
 		$currentNode = $this->getTargetPos()->getPredecessor(); // prevent duplicate entry
 
 		do{
