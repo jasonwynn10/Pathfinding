@@ -1,13 +1,14 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace salmonde\pathfinding\astar;
 
 use pocketmine\block\Block;
 
-class CostCalculator {
+class CostCalculator{
 
-	public function getCost(Block $block): float{
+	public function getCost(Block $block) : float{
 		return 1.0;
 	}
 }

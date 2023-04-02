@@ -1,12 +1,13 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace salmonde\pathfinding\utils\validator;
 
 use pocketmine\block\Block;
 use salmonde\pathfinding\Algorithm;
 
-class DistanceValidator extends Validator {
+class DistanceValidator extends Validator{
 
 	private int $maxDistanceSquared;
 
@@ -15,7 +16,7 @@ class DistanceValidator extends Validator {
 		$this->maxDistanceSquared = $maxDistance ** 2;
 	}
 
-	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide): bool{
+	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide) : bool{
 		return $algorithm->getStartPos()->distanceSquared($block->getPosition()) <= $this->maxDistanceSquared;
 	}
 }

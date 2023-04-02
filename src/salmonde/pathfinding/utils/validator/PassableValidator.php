@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace salmonde\pathfinding\utils\validator;
 
@@ -7,13 +8,13 @@ use pocketmine\block\Block;
 use pocketmine\math\AxisAlignedBB;
 use salmonde\pathfinding\Algorithm;
 
-class PassableValidator extends Validator {
+class PassableValidator extends Validator{
 
 	public function __construct(int $priority, private AxisAlignedBB $boundingBox){
 		parent::__construct($priority);
 	}
 
-	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide): bool{
+	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide) : bool{
 		if($block->isSolid()){
 			return false;
 		}

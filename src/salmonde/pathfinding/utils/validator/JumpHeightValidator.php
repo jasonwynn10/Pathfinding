@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace salmonde\pathfinding\utils\validator;
 
@@ -7,13 +8,13 @@ use pocketmine\block\Block;
 use pocketmine\math\Facing;
 use salmonde\pathfinding\Algorithm;
 
-class JumpHeightValidator extends Validator {
+class JumpHeightValidator extends Validator{
 
 	public function __construct(int $priority, private int $maxJumpHeight){
 		parent::__construct($priority);
 	}
 
-	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide): bool{
+	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide) : bool{
 		if($fromSide !== Facing::DOWN){
 			return true; // This isn't a jump, hence no jump height limit applies
 		}

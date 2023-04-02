@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace salmonde\pathfinding;
 
@@ -9,8 +10,12 @@ use pocketmine\math\Vector3;
 use pocketmine\world\World;
 use Ramsey\Collection\Set;
 use salmonde\pathfinding\utils\validator\Validator;
+use function array_search;
+use function count;
+use function max;
+use function min;
 
-abstract class Algorithm {
+abstract class Algorithm{
 
 	private ?PathResult $pathResult = null;
 	/** @var Set<Validator> $validators */
@@ -22,34 +27,34 @@ abstract class Algorithm {
 		$this->validators = new Set(Validator::class);
 	}
 
-	public function getWorld(): World{
+	public function getWorld() : World{
 		return $this->world;
 	}
 
-	public function setStartPos(Vector3 $startPos): void{
+	public function setStartPos(Vector3 $startPos) : void{
 		$this->startPos = $startPos;
 		$this->reset();
 	}
 
-	public function getStartPos(): Vector3{
+	public function getStartPos() : Vector3{
 		return $this->startPos;
 	}
 
-	public function setTargetPos(Vector3 $targetPos): void{
+	public function setTargetPos(Vector3 $targetPos) : void{
 		$this->targetPos = $targetPos;
 		$this->reset();
 	}
 
-	public function getTargetPos(): Vector3{
+	public function getTargetPos() : Vector3{
 		return $this->targetPos;
 	}
 
-	public function addValidator(Validator $validator): void{
+	public function addValidator(Validator $validator) : void{
 		$this->validators->add($validator);
 		$this->sortValidators();
 	}
 
-	public function removeValidator(Validator $validator): void{
+	public function removeValidator(Validator $validator) : void{
 		$index = array_search($validator, $this->getValidators()->toArray(), true);
 
 		if($index !== false){
@@ -58,15 +63,15 @@ abstract class Algorithm {
 		}
 	}
 
-	protected function sortValidators(): void{
+	protected function sortValidators() : void{
 		$this->validators->sort('getPriority');
 	}
 
-	public function getValidators(): Set{
+	public function getValidators() : Set{
 		return $this->validators;
 	}
 
-	protected function getValidatorPriorities(): array{
+	protected function getValidatorPriorities() : array{
 		$priorities = [];
 		foreach($this->getValidators() as $validator){
 			$priorities[] = $validator->getPriority();
@@ -75,7 +80,7 @@ abstract class Algorithm {
 		return $priorities;
 	}
 
-	public function getHighestValidatorPriority(): int{
+	public function getHighestValidatorPriority() : int{
 		if(count($this->getValidators()) === 0){
 			return 0;
 		}
@@ -83,7 +88,7 @@ abstract class Algorithm {
 		return max($this->getValidatorPriorities());
 	}
 
-	public function getLowestValidatorPriority(): int{
+	public function getLowestValidatorPriority() : int{
 		if(count($this->getValidators()) === 0){
 			return 0;
 		}
@@ -91,7 +96,7 @@ abstract class Algorithm {
 		return min($this->getValidatorPriorities());
 	}
 
-	protected function isValidBlock(Block $block, int $side): bool{
+	protected function isValidBlock(Block $block, int $side) : bool{
 		$oppositeSide = Facing::opposite($side);
 		foreach($this->validators as $validator){
 			if(!$validator->isValidBlock($this, $block, $oppositeSide)){
@@ -102,21 +107,21 @@ abstract class Algorithm {
 		return true;
 	}
 
-	protected function setPathResult(PathResult $pathResult): void{
+	protected function setPathResult(PathResult $pathResult) : void{
 		$this->pathResult = $pathResult;
 	}
 
-	public function getPathResult(): ?PathResult{
+	public function getPathResult() : ?PathResult{
 		return $this->pathResult;
 	}
 
-	public function resetPathResult(): void{
+	public function resetPathResult() : void{
 		$this->pathResult = null;
 	}
 
-	abstract public function reset(): void;
+	abstract public function reset() : void;
 
-	abstract public function tick(): void;
+	abstract public function tick() : void;
 
-	abstract public function isFinished(): bool;
+	abstract public function isFinished() : bool;
 }
