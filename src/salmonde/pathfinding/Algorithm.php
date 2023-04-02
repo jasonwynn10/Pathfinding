@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace salmonde\pathfinding;
 
-use Ds\Vector;
 use pocketmine\block\Block;
-use pocketmine\world\World;
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
+use pocketmine\world\World;
+use Ramsey\Collection\Set;
 use salmonde\pathfinding\utils\validator\Validator;
 
 abstract class Algorithm {
@@ -26,7 +26,7 @@ abstract class Algorithm {
 		$this->targetPos = $targetPos;
 		$this->reset();
 
-		$this->validators = new Vector();
+		$this->validators = new Set(Validator::class);
 	}
 
 	public function getWorld(): World{
@@ -52,7 +52,7 @@ abstract class Algorithm {
 	}
 
 	public function addValidator(Validator $validator): void{
-		$this->validators->push($validator);
+		$this->validators->add($validator);
 		$this->sortValidators();
 	}
 
@@ -66,12 +66,10 @@ abstract class Algorithm {
 	}
 
 	protected function sortValidators(): void{
-		$this->validators->sort(function(Validator $v1, Validator $v2): int{
-			return $v2->getPriority() - $v1->getPriority();
-		});
+		$this->validators->sort('getPriority');
 	}
 
-	public function getValidators(): Vector{
+	public function getValidators(): Set{
 		return $this->validators;
 	}
 
