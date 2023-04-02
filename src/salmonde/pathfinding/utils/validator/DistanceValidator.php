@@ -16,6 +16,6 @@ class DistanceValidator extends Validator {
 	}
 
 	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide): bool{
-		return $algorithm->getStartPos()->distanceSquared($block->getPos()) <= $this->maxDistanceSquared;
+		return $algorithm->getStartPos()->distanceSquared($block->getPosition()) <= $this->maxDistanceSquared;
 	}
 }
