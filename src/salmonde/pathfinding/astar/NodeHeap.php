@@ -5,6 +5,10 @@ namespace salmonde\pathfinding\astar;
 
 use SplMinHeap;
 
+/**
+ * @template T of Node
+ * @extends SplMinHeap<T>
+ */
 class NodeHeap extends SplMinHeap {
 
 	protected function compare($node1, $node2): int{
