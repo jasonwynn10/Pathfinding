@@ -3,11 +3,10 @@ declare(strict_types = 1);
 
 namespace salmonde\pathfinding\astar;
 
-use Ds\Map;
-use pocketmine\world\World;
 use pocketmine\math\Vector3;
+use pocketmine\world\World;
+use Ramsey\Collection\Map\AssociativeArrayMap;
 use salmonde\pathfinding\Algorithm;
-use salmonde\pathfinding\PathResult;
 use salmonde\pathfinding\astar\selector\NeighbourSelector;
 use salmonde\pathfinding\astar\selector\NeighbourSelectorXYZ;
 use function abs;
@@ -29,8 +28,8 @@ class AStar extends Algorithm {
 
 	public function reset(): void{
 		$this->openListHeap = new NodeHeap();
-		$this->openList = new Map();
-		$this->closedList = new Map();
+		$this->openList = new AssociativeArrayMap();
+		$this->closedList = new AssociativeArrayMap();
 
 		$startPos = $this->getStartPos();
 		$startPos->setG(0.0);
