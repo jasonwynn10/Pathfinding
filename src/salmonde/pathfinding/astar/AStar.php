@@ -93,11 +93,11 @@ class AStar extends Algorithm {
 
 		foreach($this->getNeighbourSelector()->getNeighbours($block) as $side => $neighbourBlock){
 			$neighbourBlockPos = $neighbourBlock->getPos();
-			if(!$this->isValidBlock($neighbourBlock, $side) or $this->closedList->hasKey($neighbourHash = World::blockHash($neighbourBlockPos->x, $neighbourBlockPos->y, $neighbourBlockPos->z))){
+			if(!$this->isValidBlock($neighbourBlock, $side) or $this->closedList->containsKey($neighbourHash = World::blockHash($neighbourBlockPos->x, $neighbourBlockPos->y, $neighbourBlockPos->z))){
 				continue;
 			}
 
-			$inOpenList = $this->openList->hasKey($neighbourHash);
+			$inOpenList = $this->openList->containsKey($neighbourHash);
 			$neighbourNode = $inOpenList ? $this->openList->get($neighbourHash) : Node::fromVector3($neighbourBlockPos);
 
 			$cost = $this->costCalculator->getCost($neighbourBlock);
