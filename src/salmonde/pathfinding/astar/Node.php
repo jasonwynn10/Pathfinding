@@ -25,23 +25,26 @@ class Node extends Vector3{
 		return $this->g;
 	}
 
-	public function setG(float $g) : void{
+	public function setG(float $g) : self{
 		$this->g = $g;
+		return $this;
 	}
 
 	public function getH() : float{
 		return $this->h;
 	}
 
-	public function setH(float $h) : void{
+	public function setH(float $h) : self{
 		$this->h = $h;
+		return $this;
 	}
 
 	public function getPredecessor() : ?Node{
 		return $this->predecessor;
 	}
 
-	public function setPredecessor(Node $node) : void{
+	public function setPredecessor(?Node $node) : self{
 		$this->predecessor = $node;
+		return $this;
 	}
 }

@@ -26,10 +26,11 @@ class Pathfinder{
 		$this->addDefaultValidators($boundingBox);
 	}
 
-	protected function addDefaultValidators(?AxisAlignedBB $boundingBox = null) : void{
+	protected function addDefaultValidators(?AxisAlignedBB $boundingBox = null) : self{
 		$highestPriority = $this->getAlgorithm()->getHighestValidatorPriority();
-		$this->algorithm->addValidator(new InsideWorldValidator($highestPriority === 0 ? 100 : $highestPriority + 1));
-		$this->algorithm->addValidator(new PassableValidator($this->getAlgorithm()->getLowestValidatorPriority() - 1, $boundingBox ?? AxisAlignedBB::one()));
+		$this->algorithm->addValidator(new InsideWorldValidator($highestPriority === 0 ? 100 : $highestPriority + 1))
+			->addValidator(new PassableValidator($this->getAlgorithm()->getLowestValidatorPriority() - 1, $boundingBox ?? AxisAlignedBB::one()));
+		return $this;
 	}
 
 	public function getAlgorithm() : Algorithm{
@@ -57,11 +58,13 @@ class Pathfinder{
 		return $this->getAlgorithm()->getPathResult();
 	}
 
-	public function setMaxDistance(int $maxDistance) : void{
+	public function setMaxDistance(int $maxDistance) : self{
 		$this->algorithm->addValidator(new DistanceValidator($this->getAlgorithm()->getLowestValidatorPriority() - 1, $maxDistance));
+		return $this;
 	}
 
-	public function setMaxJumpHeight(int $maxJumpHeight) : void{
+	public function setMaxJumpHeight(int $maxJumpHeight) : self{
 		$this->algorithm->addValidator(new JumpHeightValidator($this->getAlgorithm()->getLowestValidatorPriority() - 1, $maxJumpHeight));
+		return $this;
 	}
 }

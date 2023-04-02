@@ -31,36 +31,40 @@ abstract class Algorithm{
 		return $this->world;
 	}
 
-	public function setStartPos(Vector3 $startPos) : void{
+	public function setStartPos(Vector3 $startPos) : self{
 		$this->startPos = $startPos;
 		$this->reset();
+		return $this;
 	}
 
 	public function getStartPos() : Vector3{
 		return $this->startPos;
 	}
 
-	public function setTargetPos(Vector3 $targetPos) : void{
+	public function setTargetPos(Vector3 $targetPos) : self{
 		$this->targetPos = $targetPos;
 		$this->reset();
+		return $this;
 	}
 
 	public function getTargetPos() : Vector3{
 		return $this->targetPos;
 	}
 
-	public function addValidator(Validator $validator) : void{
+	public function addValidator(Validator $validator) : self{
 		$this->validators->add($validator);
 		$this->sortValidators();
+		return $this;
 	}
 
-	public function removeValidator(Validator $validator) : void{
+	public function removeValidator(Validator $validator) : self{
 		$index = array_search($validator, $this->getValidators()->toArray(), true);
 
 		if($index !== false){
 			$this->getValidators()->remove($index);
 			$this->sortValidators();
 		}
+		return $this;
 	}
 
 	protected function sortValidators() : void{
@@ -107,8 +111,9 @@ abstract class Algorithm{
 		return true;
 	}
 
-	protected function setPathResult(PathResult $pathResult) : void{
+	protected function setPathResult(PathResult $pathResult) : self{
 		$this->pathResult = $pathResult;
+		return $this;
 	}
 
 	public function getPathResult() : ?PathResult{

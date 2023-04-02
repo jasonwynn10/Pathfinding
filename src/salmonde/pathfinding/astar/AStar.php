@@ -38,8 +38,7 @@ class AStar extends Algorithm{
 
 		/** @var Node $startPos */
 		$startPos = $this->getStartPos();
-		$startPos->setG(0.0);
-		$startPos->setH($this->calculateEstimatedCost($startPos));
+		$startPos->setG(0.0)->setH($this->calculateEstimatedCost($startPos));
 		$this->openList->put(World::blockHash($startPos->getFloorX(), $startPos->getFloorY(), $startPos->getFloorZ()), $startPos);
 		$this->openListHeap->insert($startPos);
 	}
@@ -54,26 +53,28 @@ class AStar extends Algorithm{
 		return $this->neighbourSelector;
 	}
 
-	public function setNeighbourSelector(NeighbourSelector $neighbourSelector) : void{
+	public function setNeighbourSelector(NeighbourSelector $neighbourSelector) : self{
 		$this->neighbourSelector = $neighbourSelector;
+		return $this;
 	}
 
 	public function getCostCalculator() : CostCalculator{
 		return $this->costCalculator;
 	}
 
-	public function setCostCalculator(CostCalculator $costCalculator) : void{
+	public function setCostCalculator(CostCalculator $costCalculator) : self{
 		$this->costCalculator = $costCalculator;
+		return $this;
 	}
 
-	public function setStartPos(Vector3 $startPos) : void{
+	public function setStartPos(Vector3 $startPos) : self{
 		parent::setStartPos(Node::fromVector3($startPos));
+		return $this;
 	}
 
-	public function setTargetPos(Vector3 $targetPos) : void{
-		$node = Node::fromVector3($targetPos);
-		$node->setH(0.0);
-		parent::setTargetPos($node);
+	public function setTargetPos(Vector3 $targetPos) : self{
+		parent::setTargetPos(Node::fromVector3($targetPos)->setH(0.0));
+		return $this;
 	}
 
 	public function calculateEstimatedCost(Vector3 $pos) : float{
@@ -110,9 +111,9 @@ class AStar extends Algorithm{
 
 			$cost = $this->costCalculator->getCost($neighbourBlock);
 			if(!$inOpenList || $currentNode->getG() + $cost < $neighbourNode->getG()){
-				$neighbourNode->setG($currentNode->getG() + $cost);
-				$neighbourNode->setH($this->calculateEstimatedCost($neighbourBlockPos));
-				$neighbourNode->setPredecessor($currentNode);
+				$neighbourNode->setG($currentNode->getG() + $cost)
+					->setH($this->calculateEstimatedCost($neighbourBlockPos))
+					->setPredecessor($currentNode);
 
 				if(!$inOpenList){
 					$this->openList->put($neighbourHash, $neighbourNode);
