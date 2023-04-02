@@ -9,11 +9,8 @@ use salmonde\pathfinding\Algorithm;
 
 class JumpHeightValidator extends Validator {
 
-	private $maxJumpHeight;
-
-	public function __construct(int $priority, int $maxJumpHeight){
+	public function __construct(int $priority, private int $maxJumpHeight){
 		parent::__construct($priority);
-		$this->maxJumpHeight = $maxJumpHeight;
 	}
 
 	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide): bool{

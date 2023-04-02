@@ -12,18 +12,11 @@ use salmonde\pathfinding\utils\validator\Validator;
 
 abstract class Algorithm {
 
-	private $world;
-	protected $startPos;
-	protected $targetPos;
+	private ?PathResult $pathResult = null;
+	/** @var Set<Validator> $validators */
+	private Set $validators;
 
-	private $pathResult = null;
-
-	private $validators;
-
-	public function __construct(World $world, Vector3 $startPos, Vector3 $targetPos){
-		$this->world = $world;
-		$this->startPos = $startPos;
-		$this->targetPos = $targetPos;
+	public function __construct(private World $world, protected Vector3 $startPos, protected Vector3 $targetPos){
 		$this->reset();
 
 		$this->validators = new Set(Validator::class);
@@ -57,7 +50,7 @@ abstract class Algorithm {
 	}
 
 	public function removeValidator(Validator $validator): void{
-		$index = $this->getValidators()->find($validator);
+		$index = array_search($validator, $this->getValidators()->toArray(), true);
 
 		if($index !== false){
 			$this->getValidators()->remove($index);

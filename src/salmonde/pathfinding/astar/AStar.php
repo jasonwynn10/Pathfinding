@@ -9,16 +9,20 @@ use Ramsey\Collection\Map\AssociativeArrayMap;
 use salmonde\pathfinding\Algorithm;
 use salmonde\pathfinding\astar\selector\NeighbourSelector;
 use salmonde\pathfinding\astar\selector\NeighbourSelectorXYZ;
+use salmonde\pathfinding\PathResult;
 use function abs;
 
 class AStar extends Algorithm {
 
-	private $openListHeap;
-	private $openList;
-	private $closedList;
+	/** @var NodeHeap<Node> $openListHeap */
+	private NodeHeap $openListHeap;
+	/** @var AssociativeArrayMap<Vector3> $openList */
+	private AssociativeArrayMap $openList;
+	/** @var AssociativeArrayMap<Node> $closedList */
+	private AssociativeArrayMap $closedList;
 
-	private $neighbourSelector;
-	private $costCalculator;
+	private NeighbourSelector $neighbourSelector;
+	private CostCalculator $costCalculator;
 
 	public function __construct(World $world, Vector3 $startPos, Vector3 $targetPos){
 		parent::__construct($world, Node::fromVector3($startPos), Node::fromVector3($targetPos));

@@ -8,10 +8,7 @@ use salmonde\pathfinding\Algorithm;
 
 abstract class Validator {
 
-	private $priority;
-
-	public function __construct(int $priority){
-		$this->priority = $priority;
+	public function __construct(private int $priority){
 	}
 
 	public function getPriority(): int{

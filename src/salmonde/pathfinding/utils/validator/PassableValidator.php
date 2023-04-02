@@ -9,11 +9,8 @@ use salmonde\pathfinding\Algorithm;
 
 class PassableValidator extends Validator {
 
-	private $boundingBox;
-
-	public function __construct(int $priority, AxisAlignedBB $boundingBox){
+	public function __construct(int $priority, private AxisAlignedBB $boundingBox){
 		parent::__construct($priority);
-		$this->boundingBox = $boundingBox;
 	}
 
 	public function isValidBlock(Algorithm $algorithm, Block $block, int $fromSide): bool{

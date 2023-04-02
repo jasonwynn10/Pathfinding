@@ -14,18 +14,12 @@ use salmonde\pathfinding\utils\validator\PassableValidator;
 
 class Pathfinder {
 
-	private $algorithm;
+	private Algorithm $algorithm;
+	private int $iterations = 0;
+	private float $startTime = 0.0;
 
-	private $iterations = 0;
-	private $maxIterations;
-
-	private $startTime;
-	private $timeout;
-
-	public function __construct(World $world, Vector3 $startPos, Vector3 $targetPos, ?AxisAlignedBB $boundingBox = null, float $timeout = 1.0, int $maxIterations = 100000){
+	public function __construct(World $world, Vector3 $startPos, Vector3 $targetPos, ?AxisAlignedBB $boundingBox = null, private float $timeout = 1.0, private int $maxIterations = 100000){
 		$this->algorithm = new AStar($world, $startPos, $targetPos);
-		$this->timeout = $timeout;
-		$this->maxIterations = $maxIterations;
 
 		$this->addDefaultValidators($boundingBox);
 	}

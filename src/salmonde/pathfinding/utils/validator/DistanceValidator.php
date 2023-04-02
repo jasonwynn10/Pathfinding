@@ -8,7 +8,7 @@ use salmonde\pathfinding\Algorithm;
 
 class DistanceValidator extends Validator {
 
-	private $maxDistanceSquared;
+	private int $maxDistanceSquared;
 
 	public function __construct(int $priority, int $maxDistance){
 		parent::__construct($priority);

@@ -9,14 +9,10 @@ use pocketmine\block\BlockLegacyIds as Ids;
 class DefaultCostCalculator extends CostCalculator {
 
 	public function getCost(Block $block): float{
-		switch($block->getId()){
-			case Ids::WATER:
-			case Ids::FLOWING_WATER:
-				return 2.0;
-			case Ids::COBWEB:
-				return 3.0;
-			default:
-				return 1.0;
-		}
+		return match ($block->getId()) {
+			Ids::WATER, Ids::FLOWING_WATER => 2.0,
+			Ids::COBWEB => 3.0,
+			default => 1.0,
+		};
 	}
 }
