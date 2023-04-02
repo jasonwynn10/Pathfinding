@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace salmonde\pathfinding;
 
-use pocketmine\world\World;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Vector3;
+use pocketmine\world\World;
 use salmonde\pathfinding\astar\AStar;
 use salmonde\pathfinding\utils\validator\DistanceValidator;
 use salmonde\pathfinding\utils\validator\InsideWorldValidator;
