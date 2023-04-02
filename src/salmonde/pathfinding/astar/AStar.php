@@ -143,4 +143,11 @@ class AStar extends Algorithm{
 
 		$this->setPathResult($pathResult);
 	}
+
+	/**
+	 * @phpstan-return Node
+	 */
+	public function getTargetPos() : Vector3{
+		return parent::getTargetPos();
+	}
 }
