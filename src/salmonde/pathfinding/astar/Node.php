@@ -8,10 +8,9 @@ use const PHP_INT_MAX;
 
 class Node extends Vector3{
 
-	private float $g = PHP_INT_MAX;
-	private float $h = PHP_INT_MAX;
-
-	private ?Node $predecessor = null;
+	public function __construct(float $x, float $y, float $z, private ?Node $predecessor = null, private float $g = PHP_INT_MAX, private float $h = PHP_INT_MAX){
+		parent::__construct($x, $y, $z);
+	}
 
 	public static function fromVector3(Vector3 $pos) : self{
 		return new self($pos->x, $pos->y, $pos->z);
