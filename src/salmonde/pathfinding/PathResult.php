@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace salmonde\pathfinding;
 
-use salmonde\pathfinding\astar\Node;
+use pocketmine\math\Vector3;
 use SplQueue;
 
 class PathResult extends SplQueue{
 
-	public function getNextPosition() : Node{
+	public function getNextPosition() : Vector3{
 		return $this->dequeue();
 	}
 }
